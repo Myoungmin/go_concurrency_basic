@@ -6,6 +6,11 @@ import (
 )
 
 func main() {
+	start := time.Now()
+	defer func() {
+		fmt.Println(time.Since(start))
+	}()
+
 	evilNinjas := []string{"Tommy", "Johnny", "Bobby", "Andy"}
 
 	for _, evievilNinja := range evilNinjas {
