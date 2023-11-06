@@ -14,6 +14,7 @@ func main() {
 	smokeSignal := make(chan bool)
 	evilNinja := "Tommy"
 	go attack(evilNinja, smokeSignal)
+	smokeSignal <- false
 	fmt.Println(<-smokeSignal)
 }
 
