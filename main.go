@@ -8,12 +8,17 @@ import (
 
 func main() {
 	channel := make(chan string)
-	go throwingNinjaStar(channel)
-	fmt.Println(<-channel)
+	numRounds := 3
+	go throwingNinjaStar(channel, numRounds)
+	for i := 0; i < numRounds; i++ {
+		fmt.Println(<-channel)
+	}
 }
 
-func throwingNinjaStar(channel chan string) {
+func throwingNinjaStar(channel chan string, numRounds int) {
 	rand.NewSource(time.Now().UnixNano())
-	score := rand.Intn(10)
-	channel <- fmt.Sprint("You scored: ", score)
+	for i := 0; i < numRounds; i++ {
+		score := rand.Intn(10)
+		channel <- fmt.Sprint("You scored: ", score)
+	}
 }
