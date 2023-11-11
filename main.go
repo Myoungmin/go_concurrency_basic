@@ -21,4 +21,6 @@ func throwingNinjaStar(channel chan string) {
 		score := rand.Intn(10)
 		channel <- fmt.Sprint("You scored: ", score)
 	}
+	// 아래의 Close를 하지 않으면 deadLock 발생
+	close(channel)
 }
