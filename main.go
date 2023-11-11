@@ -9,7 +9,12 @@ import (
 func main() {
 	channel := make(chan string)
 	go throwingNinjaStar(channel)
-	for message := range channel {
+	for {
+		message, open := <-channel
+		if !open {
+			fmt.Println("channel is closed!")
+			break
+		}
 		fmt.Println(message)
 	}
 }
