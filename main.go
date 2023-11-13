@@ -1,31 +1,17 @@
 package main
 
-import (
-	"fmt"
-	"math/rand"
-	"time"
-)
+import "fmt"
 
 func main() {
-	channel := make(chan string)
-	go throwingNinjaStar(channel)
-	for {
-		message, open := <-channel
-		if !open {
-			fmt.Println("channel is closed!")
-			break
-		}
-		fmt.Println(message)
-	}
+	ninja1, ninja2 := make(chan string), make(chan string)
+
+	go captainElect(ninja1, "Ninja 1")
+	go captainElect(ninja2, "Ninja 2")
+
+	fmt.Println(<-ninja1)
+	fmt.Println(<-ninja2)
 }
 
-func throwingNinjaStar(channel chan string) {
-	rand.NewSource(time.Now().UnixNano())
-	numRounds := 3
-	for i := 0; i < numRounds; i++ {
-		score := rand.Intn(10)
-		channel <- fmt.Sprint("You scored: ", score)
-	}
-	// 아래의 Close를 하지 않으면 deadLock 발생
-	close(channel)
+func captainElect(ninja chan string, message string) {
+	ninja <- message
 }
