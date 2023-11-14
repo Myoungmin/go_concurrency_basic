@@ -8,8 +8,12 @@ func main() {
 	go captainElect(ninja1, "Ninja 1")
 	go captainElect(ninja2, "Ninja 2")
 
-	fmt.Println(<-ninja1)
-	fmt.Println(<-ninja2)
+	select {
+	case message := <-ninja1:
+		fmt.Println(message)
+	case message := <-ninja2:
+		fmt.Println(message)
+	}
 }
 
 func captainElect(ninja chan string, message string) {
