@@ -14,8 +14,27 @@ func main() {
 	case message := <-ninja2:
 		fmt.Println(message)
 	}
+	roughlyFair()
 }
 
 func captainElect(ninja chan string, message string) {
 	ninja <- message
+}
+
+func roughlyFair() {
+	ninja1 := make(chan interface{})
+	close(ninja1)
+	ninja2 := make(chan interface{})
+	close(ninja2)
+
+	var ninja1Count, ninja2Count int
+	for i := 0; i < 1000; i++ {
+		select {
+		case <-ninja1:
+			ninja1Count++
+		case <-ninja2:
+			ninja2Count++
+		}
+	}
+	fmt.Printf("ninja1Count: %d, ninja2Count: %d\n", ninja1Count, ninja2Count)
 }
