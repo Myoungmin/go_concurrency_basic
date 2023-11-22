@@ -7,8 +7,13 @@ import (
 
 func main() {
 	var beeper sync.WaitGroup
-	beeper.Add(1)
-	go attack("Tommy", &beeper)
+	evilNinjas := []string{"Tommy", "Johnny", "Bobby"}
+	beeper.Add(len(evilNinjas))
+
+	for _, evilNinja := range evilNinjas {
+		go attack(evilNinja, &beeper)
+	}
+
 	beeper.Wait()
 	fmt.Println("Mission completed")
 }
