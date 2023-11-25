@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
 var (
+	lock  sync.Mutex
 	count int
 )
 
@@ -19,5 +21,7 @@ func main() {
 }
 
 func increment() {
+	lock.Lock()
 	count++
+	lock.Unlock()
 }
