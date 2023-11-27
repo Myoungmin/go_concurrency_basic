@@ -34,6 +34,7 @@ func increment() {
 
 func readAndWrite() {
 	go read()
+	go read()
 	go write()
 
 	time.Sleep(5 * time.Second)
