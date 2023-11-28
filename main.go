@@ -2,59 +2,29 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"math/rand"
 	"time"
 )
 
-var (
-	lock   sync.Mutex
-	reLock sync.RWMutex
-	count  int
-)
+var missionCompleted bool
 
 func main() {
-	//basics()
-	readAndWrite()
+	checkMissionCompletion()
 }
 
-func basics() {
-	iterations := 1000
-	for i := 0; i < iterations; i++ {
-		go increment()
+func checkMissionCompletion() {
+	if missionCompleted {
+		fmt.Println("Mission is now completed")
+	} else {
+		fmt.Println("Mission was failure.")
 	}
-	time.Sleep(1 * time.Second)
-	fmt.Println("Resulted count is: ", count)
 }
 
-func increment() {
-	lock.Lock()
-	count++
-	lock.Unlock()
+func markMissionCompleted() {
+	missionCompleted = true
 }
 
-func readAndWrite() {
-	go read()
-	go read()
-	go write()
-
-	time.Sleep(5 * time.Second)
-	fmt.Println("Done")
-}
-
-func read() {
-	reLock.RLock()
-	defer reLock.RUnlock()
-
-	fmt.Println("Read locking")
-	time.Sleep(1 * time.Second)
-	fmt.Println("Read unlocking")
-}
-
-func write() {
-	reLock.Lock()
-	defer reLock.Unlock()
-
-	fmt.Println("Write locking")
-	time.Sleep(1 * time.Second)
-	fmt.Println("Writing unlocking")
+func foundTreasure() bool {
+	rand.NewSource(time.Now().UnixNano())
+	return 0 == rand.Intn(10)
 }
