@@ -13,10 +13,12 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(100)
 
+	var once sync.Once
+
 	for i := 0; i < 100; i++ {
 		go func() {
 			if foundTreasure() {
-				markMissionCompleted()
+				once.Do(markMissionCompleted)
 			}
 			wg.Done()
 		}()
